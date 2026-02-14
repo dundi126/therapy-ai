@@ -8,6 +8,8 @@ import { on } from "events";
 import { useRouter } from "next/navigation";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
+
 
 
 export const DashboardUserButton = () => {
@@ -40,7 +42,7 @@ export const DashboardUserButton = () => {
                         </Avatar>
                         ) : (
                                 // <GeneratedAvatar seed={data.user.name} varient="initials" className="size-9 mr-3"/>
-                                <img src="/avatar.png" alt="Default Avatar" className="size-9 mr-3 rounded-full" />
+                                <Image width={20} height={20} src="/avatar.png" alt="Default Avatar" className="size-9 mr-3 rounded-full" />
                         )
                     }
                     <div className="flex flex-col gap-0.5 text-left overflow-hidden flex-1 min-w-0">
