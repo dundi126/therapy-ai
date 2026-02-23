@@ -2,7 +2,7 @@ import { ReactNode, useState } from "react"
 import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
 import { ChevronsUpDownIcon } from "lucide-react";
-import { CommandEmpty, CommandInput, CommandList, CommandResponsiveDialog } from "./ui/command";
+import { CommandEmpty, CommandInput, CommandItem, CommandList, CommandResponsiveDialog } from "./ui/command";
 
 
 interface Props{
@@ -12,7 +12,7 @@ interface Props{
         children: ReactNode
     }>;
     onSelect: (value: string) => void,
-    onSearch: (value: string) => void,
+    onSearch?: (value: string) => void,
     value: string,
     placeholder?: string,
     isSearchable?: boolean,
@@ -30,7 +30,12 @@ export const CommandSelect = ({
 }: Props) => {
     
     const [open, setOpen] = useState(false)
-    const selectedOption= options.find((option) => option.value === value)
+    const selectedOption = options.find((option) => option.value === value)
+    
+    const handleOpenChange = (open: boolean) => {
+        onSearch?.("")
+        setOpen(open)
+    }
 
   return (
       <>
@@ -51,7 +56,7 @@ export const CommandSelect = ({
           <CommandResponsiveDialog
               shouldFilter={!onSearch}
               open={open}
-              onOpenChange={setOpen}
+              onOpenChange={handleOpenChange}
           >
               <CommandInput placeholder="Search..." onValueChange={onSearch} />
               <CommandList>
@@ -61,18 +66,17 @@ export const CommandSelect = ({
                       </span>
                   </CommandEmpty>
                   {options.map((option) => (
-                      <CommandList
+                      <CommandItem
                           key={option.id}
+                          value={option.value}
                           onSelect={() => {
                               onSelect(option.value)
                               setOpen(false)
                           }}
                       >
                           {option.children}
-                      </CommandList>
-                          
+                      </CommandItem>
                   ))}
-                  
               </CommandList>
               
           </CommandResponsiveDialog>

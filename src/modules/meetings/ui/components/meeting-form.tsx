@@ -96,7 +96,7 @@ export const MeetingForm = ({
 
     return (
         <>
-            <NewAgentDialog open={ openNewAgentDialog} onOpenChange={() => setOpenNewAgentDialog} />
+            <NewAgentDialog open={openNewAgentDialog} onOpenChange={setOpenNewAgentDialog} />
             <Form {...form}>
                 <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
                         <FormField
