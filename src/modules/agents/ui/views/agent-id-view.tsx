@@ -1,6 +1,7 @@
 "use client"
 
 import { ErrorState } from "@/components/error-state"
+import { GeneratedAvatar } from "@/components/generated-avatar"
 import { LoadingState } from "@/components/loading-state"
 import { useTRPC } from "@/trpc/client"
 import { useMutation, useQueryClient, useSuspenseQuery } from "@tanstack/react-query"
@@ -70,7 +71,7 @@ export const AgentIdView = ({ agentId }: props) => {
                 <div className="bg-white rounder-lg border">
                     <div className="px-4 py-5 gap-y-5 flex flex-col col-span-5">
                         <div className="flex items-center gap-x-3">
-                            <img src="/avatar.png" alt="Default Avatar" className="size-10" />
+                            <GeneratedAvatar seed={data.name} variant="botttsNeutral" className="size-10 shrink-0" />
                             <h2 className="text-2xl font-medium">{data.name}</h2>
                         </div>
                         <Badge variant="outline" className="flex items-center gap-x-3 [&>svg]:size-4">

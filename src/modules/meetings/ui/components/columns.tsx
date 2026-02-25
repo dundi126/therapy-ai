@@ -48,11 +48,11 @@ export const columns: ColumnDef<MeetingGetMany[number]>[] = [
                 <div className="flex items-center gap-x-1.5">
                     <div className="flex items-center gap-x-1">
                         <CornerDownRightIcon className="size-3 text-muted-foreground" />
+                        <GeneratedAvatar seed={row.original.agent.name} variant="botttsNeutral" className="size-4 shrink-0" />
                         <span className="text-sm text-muted-foreground max-w-[200px] truncate capitalize">
                             { row.original.agent.name}
                         </span>
                     </div>
-                    <img src="/avatar.png" alt="Default Avatar" className="size-4 rounded-full" />
                     <span>{row.original.startedAt ? format(row.original.startedAt, "MMM d") : "" }</span>
                 </div>
         </div>

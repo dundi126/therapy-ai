@@ -12,8 +12,8 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { useState } from "react";
 import { CommandSelect } from "@/components/command-select";
-import Image from "next/image";
 import { NewAgentDialog } from "@/modules/agents/ui/components/new-agent-dialog";
+import { GeneratedAvatar } from "@/components/generated-avatar";
 
 interface MeetingProps{
     onSuccess?: (id?: string) => void,
@@ -126,7 +126,11 @@ export const MeetingForm = ({
                                                 value: agent.id,
                                                 children: (
                                                     <div className="flex items-center gap-x-2">
-                                                        <Image src="/avatar.png" width={20} height={20} alt="Default Avatar" className="size-6 border" />
+                                                        <GeneratedAvatar
+                                                            variant="botttsNeutral"
+                                                            seed={agent.name}
+                                                            className="size-6"
+                                                        />
                                                         <span>{agent.name}</span>
                                                     </div>
                                                 )

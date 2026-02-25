@@ -17,12 +17,11 @@ export const columns: ColumnDef<AgentGetMany[number]>[] = [
         cell: ({ row }) => (
             <div className="flex flex-col gap-y-1">
                 <div className="flex items-center gap-x-2">
-                    {/* <GeneratedAvatar
-                    varient="botttsNeutral"
+                    <GeneratedAvatar
+                        variant="botttsNeutral"
                         seed={row.original.name}
-                        className="size-6 "
-                    /> */}
-                    <img src="/avatar.png" alt="Default Avatar" className="size-6 mr-3 rounded-full" />
+                        className="size-6 shrink-0"
+                    />
                     <span className="font-semibold capitalize">{ row.original.name}</span>
                 </div>
                 

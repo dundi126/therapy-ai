@@ -10,7 +10,6 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { z } from "zod";
 import { GeneratedAvatar } from "@/components/generated-avatar";
-import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 
@@ -87,7 +86,7 @@ export const AgentForm = ({
     return (
         <Form {...form}>
             <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
-                 <Image src="/avatar.png" width={20} height={20} alt="Default Avatar" className="size-9 mr-3 rounded-full" />
+                <GeneratedAvatar seed={form.watch("name") || initialValues?.name || "Agent"} variant="botttsNeutral" className="size-9 shrink-0" />
                     <FormField
                         name="name"
                         control={form.control}

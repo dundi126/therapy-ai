@@ -4,7 +4,8 @@ import { useState } from "react";
 import { useTRPC } from "@/trpc/client";
 import { CommandSelect } from "@/components/command-select";
 import { useMeetingsFilters } from "../../hooks/use-meetings-filters";
-import Image from "next/image";
+import { GeneratedAvatar } from "@/components/generated-avatar";
+
 
 
 export const AgentIdFilter = () => {
@@ -29,7 +30,11 @@ export const AgentIdFilter = () => {
                 value: agent.id,
                 children: (
                     <div className="flex items-center gap-x-2">
-                        <Image src="/avatar.png" width={20} height={20} alt="Default Avatar" className="size-4 rounded-full" />
+                        <GeneratedAvatar
+                            variant="botttsNeutral"
+                            seed={agent.name}
+                            className="size-4"
+                        />
                         {agent.name}
                     </div>
                 )
