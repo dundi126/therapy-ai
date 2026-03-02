@@ -30,12 +30,13 @@ const Page = async ({ params }: Props) => {
 
 
     return (
-        <HydrationBoundary state={dehydrate(queryClient)}>
-            <CallView meetingId={meetingId} />
-            
-        </HydrationBoundary>
+        <>
+            <HydrationBoundary state={dehydrate(queryClient)}>
+                <CallView meetingId={meetingId} />
+            </HydrationBoundary>
+        </>
     )
-    
+ 
 }
 
 

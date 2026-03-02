@@ -8,13 +8,14 @@ interface Props{
 
 
 export const generateAvatarUri = ({ seed, variant }: Props) => {
-    let avatart;
+    const safeSeed = seed?.trim() || "?";
+    let avatar;
 
-    if (variant === 'botttsNeutral') {
-        avatart = createAvatar(botttsNeutral, {seed})
+    if (variant === "botttsNeutral") {
+        avatar = createAvatar(botttsNeutral, { seed: safeSeed });
     } else {
-        avatart = createAvatar(initials,{seed, fontWeight:500, fontSize:42})
+        avatar = createAvatar(initials, { seed: safeSeed, fontWeight: 500, fontSize: 42 });
     }
 
-    return avatart.toDataUri()
-}
+    return avatar.toDataUri();
+};
