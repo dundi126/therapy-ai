@@ -14,7 +14,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 
 interface AgentProps{
-    onSuccess?: () => void,
+    onSuccess?: (createdAgent?: { id: string }) => void,
     onCancel?: () => void,
     initialValues ?: AgentGetOne
 }
@@ -31,11 +31,11 @@ export const AgentForm = ({
 
     const createAgent = useMutation(
         trpc.agents.create.mutationOptions({
-            onSuccess: async () => { 
+            onSuccess: async (data) => { 
                 await queryClient.invalidateQueries(
                     trpc.agents.getMany.queryOptions({})
                 )
-                onSuccess?.()
+                onSuccess?.(data)
             },
             onError: (error) => {
                 toast.error(error.message)

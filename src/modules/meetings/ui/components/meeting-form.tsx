@@ -94,9 +94,18 @@ export const MeetingForm = ({
         }
     }
 
+    const handleAgentCreated = (agentId: string) => {
+        void queryClient.invalidateQueries(trpc.agents.getMany.queryOptions({ pageSize: 100 }));
+        form.setValue("agentId", agentId);
+    };
+
     return (
         <>
-            <NewAgentDialog open={openNewAgentDialog} onOpenChange={setOpenNewAgentDialog} />
+            <NewAgentDialog
+                open={openNewAgentDialog}
+                onOpenChange={setOpenNewAgentDialog}
+                onAgentCreated={handleAgentCreated}
+            />
             <Form {...form}>
                 <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
                         <FormField

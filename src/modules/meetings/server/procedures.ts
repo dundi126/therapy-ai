@@ -9,7 +9,6 @@ import { meetingsInsertSchema, meetingsUpdateSchema } from "../schemas";
 import { MeetingStatus } from "../types";
 import { streamVideo } from "@/lib/stream-video";
 import { generateAvatarUri } from "@/lib/avatar";
-import { GeneratedAvatar } from "@/components/generated-avatar";
 
 export const meetingsRouter = createTRPCRouter({
 
@@ -80,6 +79,23 @@ export const meetingsRouter = createTRPCRouter({
     create: protectedProcedure
             .input(meetingsInsertSchema)
             .mutation(async ({ input, ctx }) => {
+                const [existingAgent] = await db
+                    .select()
+                    .from(agents)
+                    .where(
+                        and(
+                            eq(agents.id, input.agentId),
+                            eq(agents.userId, ctx.auth.user.id)
+                        )
+                    );
+
+                if (!existingAgent) {
+                    throw new TRPCError({
+                        code: "NOT_FOUND",
+                        message: "Agent not found or you don't have access to it",
+                    });
+                }
+
                 const [createdMeeting] = await db
                     .insert(meetings)
                     .values({
@@ -110,18 +126,6 @@ export const meetingsRouter = createTRPCRouter({
                         }
                     }
                 })
-
-                const [existingAgent] = await db
-                    .select()
-                    .from(agents)
-                    .where(eq(agents.id, createdMeeting.agentId))
-                
-                if (!existingAgent) {
-                    throw new TRPCError({
-                        code: 'NOT_FOUND',
-                        message:"Agent not found"
-                    })
-                }
 
                 await streamVideo.upsertUsers([
                     {
