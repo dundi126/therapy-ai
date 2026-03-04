@@ -344,7 +344,7 @@ export async function POST(request: Request) {
                         role: "system",
                         content: instructions,
                     },
-                    ...previousMessages
+                    ...previousMessages,
                     {
                         role: "user",
                         content: text,
