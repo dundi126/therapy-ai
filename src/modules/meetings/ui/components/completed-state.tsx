@@ -8,6 +8,8 @@ import { GeneratedAvatar } from "@/components/generated-avatar";
 import { format } from "date-fns";
 import { Badge } from "@/components/ui/badge";
 import { formatDuration } from "@/lib/utils";
+import { Transcript } from "./transcript";
+import { ChatProvider } from "./chat-provider";
 
 interface Props{
     data: MeetingGetOne
@@ -17,7 +19,7 @@ export const CompletedState = ({ data }: Props) => {
     
     return (
         <div className="flex flex-col gap-y-4">
-            <Tabs defaultValue="summary" className="w-full">
+             <Tabs defaultValue="summary" className="w-full">
                 <div className="bg-white rounded-lg border px-3">
                     <ScrollArea>
                         <TabsList className="p-0 bg-background justify-start rounded-none h-13">
@@ -49,6 +51,12 @@ export const CompletedState = ({ data }: Props) => {
                         <ScrollBar orientation="horizontal" />
                     </ScrollArea>
                 </div>
+                 <TabsContent value="chat">
+                    <ChatProvider meetingId={data.id} meetingName={data.name} />
+                </TabsContent>
+                <TabsContent value="transcript">
+                    <Transcript meetingId={data.id} />
+                </TabsContent>
                 <TabsContent value="recording">
                     <div className="bg-white rounded-lg border px-4 py-5">
                         <video
