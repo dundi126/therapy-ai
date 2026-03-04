@@ -1,6 +1,6 @@
 import { useTRPC } from "@/trpc/client";
 import { MeetingGetOne } from "../../types";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { meetingsInsertSchema } from "../../schemas";
@@ -28,7 +28,7 @@ export const MeetingForm = ({
     initialValues
 }: MeetingProps) => {
     const trpc = useTRPC()
-    // const router = useRouter()
+    const router = useRouter()
     const queryClient = useQueryClient()
     const [openNewAgentDialog,setOpenNewAgentDialog] = useState(false)
     const [agentSearch, setAgentSearch] = useState("")
@@ -46,10 +46,16 @@ export const MeetingForm = ({
                 await queryClient.invalidateQueries(
                     trpc.meetings.getMany.queryOptions({})
                 )
+                 await queryClient.invalidateQueries(
+                    trpc.premium.getFreeUsage.queryOptions()
+                )
                 onSuccess?.(data.id)
             },
             onError: (error) => {
                 toast.error(error.message)
+                if(error.data?.code === "FORBIDDEN"){
+                    router.push("/upgrade")
+                }
             }
         })
         

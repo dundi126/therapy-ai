@@ -1,5 +1,5 @@
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { Drawer,DrawerClose,DrawerContent,DrawerDescription,DrawerFooter,DrawerHeader,DrawerPortal,DrawerOverlay,DrawerTitle,DrawerTrigger } from "@/components/ui/drawer";
+import { Drawer,DrawerClose,DrawerContent,DrawerDescription,DrawerFooter,DrawerHeader,DrawerTitle,DrawerTrigger } from "@/components/ui/drawer";
 import { authClient } from "@/lib/auth-client"
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { GeneratedAvatar } from "@/components/generated-avatar";
@@ -59,7 +59,7 @@ export const DashboardUserButton = () => {
                         </DrawerDescription>
                     </DrawerHeader>
                     <DrawerFooter>
-                        <Button variant="outline" onClick={handleLogout}>
+                        <Button variant="outline" onClick={() => authClient.customer.portal()}>
                             Billing
                             <CreditCardIcon className="size-4 text-black"/>
                         </Button>
@@ -99,7 +99,7 @@ export const DashboardUserButton = () => {
                     </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem className="cursor-pointer flex items-center justify-between">
+                <DropdownMenuItem className="cursor-pointer flex items-center justify-between" onClick={() => authClient.customer.portal()}>
                     Billing
                     <CreditCardIcon className="size-4 text-black"/>
                 </DropdownMenuItem>

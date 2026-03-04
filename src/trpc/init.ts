@@ -1,7 +1,13 @@
+import { db } from '@/db';
+import { agents, meetings, user } from '@/db/schema';
 import { auth } from '@/lib/auth';
+import { polarClient } from '@/lib/polar';
+import { MAX_FREE_AGENTS, MAX_FREE_MEETINGS } from '@/modules/premium/constants';
 import { initTRPC, TRPCError } from '@trpc/server';
+import { eq,count } from 'drizzle-orm';
 import { headers } from 'next/headers';
 import { cache } from 'react';
+import { en } from 'zod/v4/locales';
 
 export const createTRPCContext = cache(async () => {
   /**
@@ -35,3 +41,46 @@ export const protectedProcedure = baseProcedure.use(async ({ ctx, next }) => {
     return next({ ctx: {...ctx, auth: session} })
     
 })
+
+
+
+export const premiumProcedure = (entity: "agents" | "meetings") => 
+  protectedProcedure.use(async ({ ctx, next }) => {
+    const customer = await polarClient.customers.getStateExternal({
+                externalId: ctx.auth.user.id,
+            })
+    
+    const [userMeetings] = await db
+        .select({count: count(meetings.id)})
+        .from(meetings)
+        .where(eq(meetings.userId, ctx.auth.user.id))
+            
+    const [userAgents] = await db
+        .select({count: count(agents.id)})
+        .from(agents)
+        .where(eq(agents.userId, ctx.auth.user.id))
+            
+    
+    const ispremium = customer.activeSubscriptions.length > 0
+    const isFreeAgentLimitExceeded = userAgents.count >= MAX_FREE_AGENTS
+    const isFreeMeetingLimitExceeded = userMeetings.count >= MAX_FREE_MEETINGS
+
+    const shouldThrowMeetingError = entity === "meetings" && isFreeMeetingLimitExceeded && !ispremium
+    const shouldThrowAgentError = entity === "agents" && isFreeAgentLimitExceeded && !ispremium
+
+    if( shouldThrowMeetingError) {
+        throw new TRPCError({
+            code: "FORBIDDEN",
+            message: `You have exceeded the free meetings limit.`
+        })
+    }
+
+    if(shouldThrowAgentError) {
+        throw new TRPCError({
+            code: "FORBIDDEN",
+            message: `You have exceeded the free agents limit.`
+        })
+    }
+
+    return next({ctx: {...ctx, customer}})
+  })
