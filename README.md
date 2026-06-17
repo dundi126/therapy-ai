@@ -1,8 +1,8 @@
-# therapy.ai
+# meet.ai
 
 A [Next.js](https://nextjs.org/) application for **video meetings** with **AI agents** powered by [Stream Video](https://getstream.io/video/), [OpenAI](https://openai.com/) (including Realtime for in-call agents), and background **meeting summaries** via [Inngest](https://www.inngest.com/). Authentication uses [Better Auth](https://www.better-auth.com/) with optional GitHub/Google sign-in and [Polar](https://polar.sh/) for checkout and customer portal (sandbox in this repo).
 
-The dashboard UI is branded **Therapy.AI** in the sidebar; the repository name is `meet.ai`.
+The dashboard UI is branded **meet.ai** in the sidebar; the repository name is `meet.ai`.
 
 ---
 
